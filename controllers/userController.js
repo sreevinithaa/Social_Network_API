@@ -39,6 +39,11 @@ module.exports = {
       .then((user) => res.json(user))
       .catch((err) => res.status(500).json(err));
   },
+  UpdateUser(req, res) {
+    User.create(req.body)
+      .then((user) => res.json(user))
+      .catch((err) => res.status(500).json(err));
+  },
   // Delete a user and remove associate thought
   deleteUser(req, res) {
     User.findOneAndRemove({ _id: req.params.userId })

@@ -35,8 +35,14 @@ module.exports = {
       .then((thought) => res.json(thought))
       .catch((err) => res.status(500).json(err));
   },
+  updateThought(req,res)
+  {
+    Thought.create(req.body)
+    .then((thought) => res.json(thought))
+    .catch((err) => res.status(500).json(err));
+  },
   // Delete a thought
-  deleteUser(req, res) {
+  deletethought(req, res) {
     Thought.findOneAndRemove({ _id: req.params.thoughtId })
       .then((thought) =>
         !thought

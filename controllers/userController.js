@@ -39,18 +39,17 @@ module.exports = {
       .then((user) => res.json(user))
       .catch((err) => res.status(500).json(err));
   },
-  // Delete a user and remove them from the course
+  // Delete a user and remove associate thought
   deleteUser(req, res) {
     User.findOneAndRemove({ _id: req.params.userId })
-      .then((user) =>
-        !user
-          ? res.status(404).json({ message: 'No such user exists' })
-          : res.json({ message: 'User successfully deleted' })
-      )
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json(err);
-      });
+    .then((user) =>
+    !user
+      ? res.status(404).json({ message: 'No user with that ID' })
+      : Thought.deleteMany({ _id: { $in: user.thoughts } })
+  )
+  .then(() => res.json({ message: 'user and thoughts deleted!' }))
+  .catch((err) => res.status(500).json(err));
+     
   },
  
 };

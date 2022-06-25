@@ -1,11 +1,12 @@
 const { Schema, Types,model } = require("mongoose");
-
+var random = require('mongoose-random');
 const userSchema = new Schema(
   {
     username: {
       type: String,
       required: true,
       unique: true,
+      trim:true
     },
     email: {
       type: String,
@@ -34,7 +35,8 @@ const userSchema = new Schema(
     toJSON: {
       getters: true,
     },
-    id: false,
+    id: true,
+    timestamps:true
   }
 );
 userSchema.pre("save", function (next) {
@@ -42,6 +44,7 @@ userSchema.pre("save", function (next) {
   // do stuff
   next();
 });
+userSchema.plugin(random, {path: 'r'});
 const User = model("user", userSchema);
 
 module.exports = User;

@@ -33,17 +33,14 @@ const thoughtSchema = new Schema(
           default: Date.now,
         },
       },
-)],
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
+)]
   },
   {
     toJSON: {
       virtuals: true,
     },
-    id: false,
+    id: true,
+    timestamps:true
   }
 );
 thoughtSchema

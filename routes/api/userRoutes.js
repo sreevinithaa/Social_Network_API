@@ -9,10 +9,10 @@ const {
     removeFriend
 } = require('../../controllers/userController.js');
 
-// /api/courses
+// /api/user
 router.route('/').get(getUsers).post(createUser);
 
-// /api/courses/:courseId
+// /api/user/:userId
 router
   .route('/:userId')
   .get(getSingleUser)
@@ -20,9 +20,9 @@ router
   .delete(deleteUser);
 
 
-  // /api/applications/:applicationId/tags
+  // /api/user/:userId/friend/:friendId
 router.route('/:userId/friend/:friendId').post(addFriend);
 
-// /api/applications/:applicationId/tags/:tagId
+// /api/user/:userId/friend/:friendId
 router.route('/:userId/friend/:friendId').delete(removeFriend);
 module.exports = router;

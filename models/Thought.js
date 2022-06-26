@@ -12,6 +12,10 @@ const thoughtSchema = new Schema(
       type: String,
       required: true,
     },
+    userId:{
+      type: Schema.Types.ObjectId,
+      ref:"user"
+    },
     reactions: [new Schema(
       
       {
@@ -28,10 +32,7 @@ const thoughtSchema = new Schema(
           type: String,
           required: true,
         },
-        userId:{
-          type: Schema.Types.ObjectId,
-          ref:"User"
-        },
+      
         createdAt: {
           type: Date,
           default: Date.now,

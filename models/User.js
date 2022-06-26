@@ -34,11 +34,18 @@ const userSchema = new Schema(
   {
     toJSON: {
       getters: true,
+      virtuals: true,
     },
     id: true,
     timestamps:true
   }
 );
+userSchema
+  .virtual("friendsCount")
+  // Getter
+  .get(function () {
+    return this.friends.length;
+  });
 userSchema.pre("save", function (next) {
   username = username.trim();
   // do stuff

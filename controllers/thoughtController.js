@@ -32,7 +32,20 @@ module.exports = {
   // create a new thought
   createThought(req, res) {
     Thought.create(req.body)
-      .then((thought) => res.json(thought))
+    .then((thought) => {
+        return User.findOneAndUpdate(
+          { _id: req.body.userId },
+          { $addToSet: { thoughts: thought._id } },
+          { new: true }
+        );
+      })
+      .then((user) =>
+        !user
+          ? res.status(404).json({
+              message: 'Thought created, but found no user with that ID',
+            })
+          : res.json('Created the thought 🎉')
+      )
       .catch((err) => res.status(500).json(err));
   },
   updateThought(req,res)
@@ -44,11 +57,22 @@ module.exports = {
   // Delete a thought
   deletethought(req, res) {
     Thought.findOneAndRemove({ _id: req.params.thoughtId })
-      .then((thought) =>
-        !thought
-          ? res.status(404).json({ message: "No such thought exists" })
-          : res.json({ message: "Thought successfully deleted" })
-      )
+    .then((thought) =>
+    !thought
+      ? res.status(404).json({ message: 'No thought with this id!' })
+      : User.findOneAndUpdate(
+          { thoughts: req.params.thoughtId },
+          { $pull: { thoughts: req.params.thoughtId } },
+          { new: true }
+        )
+  )
+  .then((user) =>
+    !user
+      ? res.status(404).json({
+          message: 'Thought deleted but no user with this id!',
+        })
+      : res.json({ message: 'Thought successfully deleted!' })
+  )
       .catch((err) => {
         console.log(err);
         res.status(500).json(err);

@@ -1,5 +1,5 @@
 const { Schema, Types,model } = require("mongoose");
-var random = require('mongoose-random');
+var validator = require('validator');
 const userSchema = new Schema(
   {
     username: {
@@ -33,7 +33,6 @@ const userSchema = new Schema(
   },
   {
     toJSON: {
-      getters: true,
       virtuals: true,
     },
     id: true,
@@ -46,12 +45,8 @@ userSchema
   .get(function () {
     return this.friends.length;
   });
-userSchema.pre("save", function (next) {
-  username = username.trim();
-  // do stuff
-  next();
-});
-userSchema.plugin(random, {path: 'r'});
+
+
 const User = model("user", userSchema);
 
 module.exports = User;

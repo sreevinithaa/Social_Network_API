@@ -1,1 +1,18 @@
-{"name":"Social network","version":"1.0.1","description":"Mongoose back-end project - Main","main":"index.js","license":"MIT","scripts":{"start":"node index","dev":"nodemon index","seed":"node utils/seed","heroku-postbuild":"node utils/seed.js"},"dependencies":{"express":"^4.18.1","mongoose":"^6.4.0","mongoose-random":"^0.1.1"}}
+{
+  "name": "Social network",
+  "version": "1.0.1",
+  "description": "Mongoose back-end project - Main",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index",
+    "dev": "nodemon index",
+    "seed": "node utils/seed",
+    "heroku-postbuild": "node utils/seed.js"
+  },
+  "dependencies": {
+    "express": "^4.18.1",
+    "mongoose": "^6.4.0",
+    "validator": "^13.7.0"
+  }
+}

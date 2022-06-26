@@ -1,5 +1,5 @@
 const { Schema, Types,model } = require("mongoose");
-var random = require('mongoose-random');
+
 const thoughtSchema = new Schema(
   {
     thoughtText: {
@@ -54,7 +54,7 @@ thoughtSchema
   .get(function () {
     return this.reactions.length;
   });
-  thoughtSchema.plugin(random, {path: 'r'});
+
 // Initialize our Application model
 const Thought = model("thought", thoughtSchema);
 

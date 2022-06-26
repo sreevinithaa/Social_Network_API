@@ -1,15 +1,11 @@
-const { ObjectId } = require('mongoose').Types;
-const { Thought, User } = require('../models');
 
+const { Thought, User } = require("../models");
 
 module.exports = {
   // Get all users
   getUsers(req, res) {
     User.find({})
-    .populate('thoughts')
-    .populate('friends')
-      .then( (user) => {
-       
+      .then((user) => {
         return res.json(user);
       })
       .catch((err) => {
@@ -20,12 +16,14 @@ module.exports = {
   // Get a single user
   getSingleUser(req, res) {
     User.findOne({ _id: req.params.userId })
-      .select('-__v')
+      .populate("thoughts")
+      .populate("friends")
+      .select("-__v")
       .then(async (user) =>
         !user
-          ? res.status(404).json({ message: 'No user with that ID' })
+          ? res.status(404).json({ message: "No user with that ID" })
           : res.json({
-            user
+              user,
             })
       )
       .catch((err) => {
@@ -35,28 +33,42 @@ module.exports = {
   },
   // create a new user
   createUser(req, res) {
-    User.create(req.body)
+    User.create({ username: req.body.username, email: req.body.email })
       .then((user) => res.json(user))
-      .catch((err) => res.status(500).json(err));
+      .catch((err) => {
+        return res.status(500).json(err);
+      });
   },
+
+  //Update user
   UpdateUser(req, res) {
-    User.create(req.body)
-      .then((user) => res.json(user))
-      .catch((err) => res.status(500).json(err));
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $set: req.body },
+      { runValidators: true, new: true }
+    )
+      .then((user) =>
+        !user
+          ? res.status(404).json({ message: "No user with this id!" })
+          : res.json(user)
+      )
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
   },
   // Delete a user and remove associate thought
   deleteUser(req, res) {
     User.findOneAndRemove({ _id: req.params.userId })
-    .then((user) =>
-    !user
-      ? res.status(404).json({ message: 'No user with that ID' })
-      : Thought.deleteMany({ _id: { $in: user.thoughts } })
-  )
-  .then(() => res.json({ message: 'user and thoughts deleted!' }))
-  .catch((err) => res.status(500).json(err));
-     
+      .then((user) =>
+        !user
+          ? res.status(404).json({ message: "No user with that ID" })
+          : Thought.deleteMany({ _id: { $in: user.thoughts } })
+      )
+      .then(() => res.json({ message: "user and thoughts deleted!" }))
+      .catch((err) => res.status(500).json(err));
   },
-  // Adds a tag to an application. This method is unique in that we add the entire body of the tag rather than the ID with the mongodb $addToSet operator.
+  // Adds a friend to a user. 
   addFriend(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.userId },
@@ -65,12 +77,12 @@ module.exports = {
     )
       .then((user) =>
         !user
-          ? res.status(404).json({ message: 'No user with this id!' })
+          ? res.status(404).json({ message: "No user with this id!" })
           : res.json(user)
       )
       .catch((err) => res.status(500).json(err));
   },
-  // Remove application tag. This method finds the application based on ID. It then updates the tags array associated with the app in question by removing it's tagId from the tags array.
+  // Remove user friend. This method finds the user based on ID. It then updates the friends array associated with the app in question by removing it's friendId from the friends array.
   removeFriend(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.userId },
@@ -79,7 +91,7 @@ module.exports = {
     )
       .then((user) =>
         !user
-          ? res.status(404).json({ message: 'No user with this id!' })
+          ? res.status(404).json({ message: "No user with this id!" })
           : res.json(user)
       )
       .catch((err) => res.status(500).json(err));

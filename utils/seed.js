@@ -1,6 +1,6 @@
 const connection = require("../config/connection");
 const { User, Thought } = require("../models");
-var random = require("mongoose-random");
+
 
 const {
   getRandomThoughts,

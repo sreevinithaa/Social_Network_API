@@ -52,14 +52,14 @@ Run the following command at th root of your project and check the api in Insomi
 
 ## Vedio of functionality
 
-![CMS gif link](./assets/img/Employee_CMS_Demo.gif)<br>
-The full movie file showing functionality of the application can be found [here](https://sreevinithaa.github.io/CMS/assets/vedio/Employee_CMS_Demo.mp4)
+![API gif link](./assets/img/Network_api.gif)<br>
+The full movie file showing functionality of the application can be found [here](https://sreevinithaa.github.io/Social_Network_API/assets/vedio/Network_api.mp4)
 
 
 
 ## Repository
 
-You can get the code in the following link. https://github.com/sreevinithaa/CMS.git
+You can get the code in the following link. https://github.com/sreevinithaa/Social_Network_API.git
 
 
 ## Questions

@@ -31,8 +31,7 @@ connection.once("open", async () => {
     await Thought.create({
       thoughtText,
       username,
-      userId,
-      reactions,
+       reactions,
     })
       .then((thought) => {
         return User.findOneAndUpdate(
